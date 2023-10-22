@@ -30,6 +30,6 @@ jobs:
         python manage.py test
     - name: Send input to PythonAnywhere Console
       run: |
-        curl --location "https://www.pythonanywhere.com/api/v0/user/$PA_USER/consoles/$PA_CONSOLE_ID/send_input/" --header "Authorization: Token $PA_TOKEN" "echo hello"
+        curl --location "https://www.pythonanywhere.com/api/v0/user/${{ secrets.PA_USER }}/consoles/${{ secrets.PA_CONSOLE_ID }}/send_input/" --header "Authorization: Token ${{ secrets.PA_TOKEN }}" "echo hello"
 
 
