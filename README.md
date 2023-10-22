@@ -1,5 +1,7 @@
 # django-pythonanywhere
-A template for easy deployment of Django apps to PythonAnywhere
+A template for easy deployment of Django apps to PythonAnywhere (for Free Accounts using MySQL database)
+
+## Configuration
 
 1. Replace `{{ project_name }}` by Django project name.
 2. Replace `{{ project_username }}` by your PythonAnywhere username.
@@ -39,3 +41,22 @@ from django.core.wsgi import get_wsgi_application
 application = get_wsgi_application()
 
 ```
+## Using GitHub Actions to deploy to PythonAnywhere
+### GitHub Secrets
+#### MySQL
+- `${{ secrets.MYSQL_DATABASE }}`
+ 
+- `${{ secrets.MYSQL_ROOT_PASSWORD }}`
+ 
+- `${{ secrets.MYSQL_USER }}`
+ 
+- `${{ secrets.MYSQL_PASSWORD }}`
+ 
+ #### PythonAnywhere
+ For more details about the PythonAnywhere API: https://help.pythonanywhere.com/pages/API/
+ 
+- `${{ secrets.PA_USER }}`: same as `{{ project_username }}`
+ 
+- `${{ secrets.PA_TOKEN }}`: The PythonAnywhere API uses token-based authentication. You can get your token from your Account page on the API Token tab.
+ 
+- `${{ secrets.PA_CONSOLE_ID }}`: The ID of the console instance in PythonAnywhere used to run the commands (pull changes, migrate, collectstatic, reload app)
