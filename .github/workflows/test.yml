@@ -25,11 +25,18 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
-    - name: Run Tests
+    - name: Run Django Migrations
+      run: |
+        python manage.py migrate
+    - name: Run Django Checks
+      run: |
+        python manage.py check
+    - name: Run Django Tests
       run: |
         python manage.py test
     - name: Send input to PythonAnywhere Console
       run: |
-        curl --location "https://www.pythonanywhere.com/api/v0/user/${{ secrets.PA_USER }}/consoles/${{ secrets.PA_CONSOLE_ID }}/send_input/" --header "Authorization: Token ${{ secrets.PA_TOKEN }}"  --header 'Content-Type: application/json' --data-binary "{\"input\": \"echo hello\"}"
-
-
+        curl "https://www.pythonanywhere.com/api/v0/user/${{ secrets.PA_USER }}/consoles/${{ secrets.PA_CONSOLE_ID }}/send_input/" -H "Authorization: Token ${{ secrets.PA_TOKEN }}"  -H "Content-Type: application/json" --data-binary "{\"input\": \"echo hello\"}"
+    - name: Reload PythonAnywhere web app
+      run: |
+        curl -X POST "https://www.pythonanywhere.com/api/v0/user/${{ secrets.PA_USER }}/webapps/${{ secrets.PA_USER }}.pythonanywhere.com/reload/" -H "Authorization: Token ${{ secrets.PA_TOKEN }}"
