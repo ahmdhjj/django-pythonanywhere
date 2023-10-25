@@ -1,23 +1,39 @@
 # django-pythonanywhere
 A template for easy deployment of Django apps to PythonAnywhere (for Free Accounts using MySQL database)
 
-## Configuration
+## Guide
 
 1. Replace `{{ project_name }}` by Django project name.
 2. Replace `{{ project_username }}` by your PythonAnywhere username.
 3. [Generate a new SSH key](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent#generating-a-new-ssh-key) in a PythonAnyhwere Bash console and [add it to your github account](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account?tool=webui#adding-a-new-ssh-key-to-your-account)
-4. Clone the GitHub repo from a PythonAnyhwere Bash console
+4. Create a virtual env in a PythonAnywhere Bash Console in `/home/{{ project_username }}/` directory. For example, to create a Python 3.10 virtualenv called `myvirtualenv`:
+   ```
+   mkvirtualenv myvirtualenv --python=/usr/bin/python3.10
+   ```
+5. Clone the GitHub repo from a PythonAnyhwere Bash console in `/home/{{ project_username }}/` directory.
 
-Source code:
-`/home/{{ project_username }}/{{ project_name }}`
+## Web App Configuration in PythonAnywhere
+Go to the Web tab in PythonAnywhere and make sure the fields are set correctly:
 
-Working directory:
-`/home/{{ project_username }}/`
+**Source code:**
+```
+/home/{{ project_username }}/{{ project_name }}
+```
 
-WSGI configuration file:
-`/var/www/{{ project_username }}_pythonanywhere_com_wsgi.py`
+**Working directory:**
+```
+/home/{{ project_username }}/
+```
 
-WSGI configuration file contents:
+**WSGI configuration file:**
+```
+/var/www/{{ project_username }}_pythonanywhere_com_wsgi.py
+```
+**Virtualenv:**
+```
+/home/myusername/.virtualenvs/{{ virtualenv_name }}
+```
+**WSGI configuration file contents:**
 ```
 # This file contains the WSGI configuration required to serve up your
 # web application at http://{{ project_username }}.pythonanywhere.com/
@@ -58,8 +74,10 @@ application = get_wsgi_application()
  For more details about the PythonAnywhere API: https://help.pythonanywhere.com/pages/API/
  
 - `${{ secrets.PA_USER }}`: same as `{{ project_username }}`
+
+- `${{ secrets.PA_VIRTUALENV }}`: same as `{{ virtualenv_name }}` created in step 4
  
-- `${{ secrets.PA_TOKEN }}`: The PythonAnywhere API uses token-based authentication. You can get your token from your Account page on the API Token tab.
+- `${{ secrets.PA_TOKEN }}`: The PythonAnywhere API uses token-based authentication. You can get your token from your Account page on the API Token tab
  
 - `${{ secrets.PA_CONSOLE_ID }}`: The ID of the console instance in PythonAnywhere used to run the commands (pull changes, migrate, collectstatic, reload app)
 
