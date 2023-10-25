@@ -60,3 +60,5 @@ application = get_wsgi_application()
 - `${{ secrets.PA_TOKEN }}`: The PythonAnywhere API uses token-based authentication. You can get your token from your Account page on the API Token tab.
  
 - `${{ secrets.PA_CONSOLE_ID }}`: The ID of the console instance in PythonAnywhere used to run the commands (pull changes, migrate, collectstatic, reload app)
+
+- `${{ secrets.PA_SRC_DIR }}`: The git repository in PythonAnywhere with the source code
