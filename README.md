@@ -5,6 +5,8 @@ A template for easy deployment of Django apps to PythonAnywhere (for Free Accoun
 
 1. Replace `{{ project_name }}` by Django project name.
 2. Replace `{{ project_username }}` by your PythonAnywhere username.
+3. [Generate a new SSH key](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent#generating-a-new-ssh-key) in a PythonAnyhwere Bash console and [add it to your github account](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account?tool=webui#adding-a-new-ssh-key-to-your-account)
+4. Clone the GitHub repo from a PythonAnyhwere Bash console
 
 Source code:
 `/home/{{ project_username }}/{{ project_name }}`
@@ -60,3 +62,7 @@ application = get_wsgi_application()
 - `${{ secrets.PA_TOKEN }}`: The PythonAnywhere API uses token-based authentication. You can get your token from your Account page on the API Token tab.
  
 - `${{ secrets.PA_CONSOLE_ID }}`: The ID of the console instance in PythonAnywhere used to run the commands (pull changes, migrate, collectstatic, reload app)
+
+- `${{ secrets.PA_SRC_DIR }}`: The git repository in PythonAnywhere with the source code
+
+- `${{ secrets.PA_SSH_KEY_PASSPHRASE }}`: The passphrase of the SSH key created in PythonAnywhere
