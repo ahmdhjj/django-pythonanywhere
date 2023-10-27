@@ -39,9 +39,13 @@ jobs:
     - name: Deploy to PythonAnywhere Console
       run: |
         send_input() {
-          curl "$API_URL_INPUT" -H "Authorization: Token ${{ secrets.PA_TOKEN }}"  -H "Content-Type: application/json" --data-binary "{\"input\": \"$1\n\"}"
+          response=$(curl "$API_URL_INPUT" -H "Authorization: Token ${{ secrets.PA_TOKEN }}"  -H "Content-Type: application/json" --data-binary "{\"input\": \"$1\n\"}")
+          if [ "$response" != "ok" ]; then
+            echo "Curl command was not successful. Stopping the workflow."
+            exit 1
+          fi
         }
-        echo "SSH_AGENT_OUTPUT=$(send_input "eval \`ssh-agent\`")" >> "$GITHUB_OUTPUT"
+        send_input "eval \`ssh-agent\`"
         send_input "ssh-add ~/.ssh/id_ed25519"
         send_input "${{ secrets.PA_SSH_KEY_PASSPHRASE }}"
         send_input "workon ${{ secrets.PA_VIRTUALENV }}"
