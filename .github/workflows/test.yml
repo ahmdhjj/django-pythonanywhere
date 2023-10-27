@@ -15,8 +15,9 @@ jobs:
       matrix:
         python-version: ['3.10']
     env:
-      API_URL_INPUT: https://www.pythonanywhere.com/api/v0/user/${{ secrets.PA_USER }}/consoles/${{ secrets.PA_CONSOLE_ID }}/send_input/
-      API_URL_RELOAD: https://www.pythonanywhere.com/api/v0/user/${{ secrets.PA_USER }}/consoles/${{ secrets.PA_CONSOLE_ID }}/reload/
+      API_URL: https://www.pythonanywhere.com/api/v0/user/${{ secrets.PA_USER }}/consoles/${{ secrets.PA_CONSOLE_ID }}
+      API_URL_INPUT: $API_URL/send_input/
+      API_URL_RELOAD: $API_URL/reload/
     steps:
     - uses: actions/checkout@v3
     - name: Set up Python ${{ matrix.python-version }}
@@ -42,18 +43,18 @@ jobs:
           curl "$API_URL_INPUT" -H "Authorization: Token ${{ secrets.PA_TOKEN }}"  -H "Content-Type: application/json" --data-binary "{\"input\": \"$1\n\"}"
         }
         send_input "eval \`ssh-agent\`"
-        curl "$API_URL_INPUT" -H "Authorization: Token ${{ secrets.PA_TOKEN }}"  -H "Content-Type: application/json" --data-binary "{\"input\": \"ssh-add ~/.ssh/id_ed25519\n\"}"
-        curl "$API_URL_INPUT" -H "Authorization: Token ${{ secrets.PA_TOKEN }}"  -H "Content-Type: application/json" --data-binary "{\"input\": \"${{ secrets.PA_SSH_KEY_PASSPHRASE }}\n\"}"
-        curl "$API_URL_INPUT" -H "Authorization: Token ${{ secrets.PA_TOKEN }}"  -H "Content-Type: application/json" --data-binary "{\"input\": \"workon ${{ secrets.PA_VIRTUALENV }}\n\"}"
+        send_input "ssh-add ~/.ssh/id_ed25519"
+        send_input "${{ secrets.PA_SSH_KEY_PASSPHRASE }}"
+        send_input "workon ${{ secrets.PA_VIRTUALENV }}"
     - name: Pull the latest changes
       run: |
-        curl "$API_URL_INPUT" -H "Authorization: Token ${{ secrets.PA_TOKEN }}"  -H "Content-Type: application/json" --data-binary "{\"input\": \"cd ${{ secrets.PA_SRC_DIR }}\n\"}"
-        curl "$API_URL_INPUT" -H "Authorization: Token ${{ secrets.PA_TOKEN }}"  -H "Content-Type: application/json" --data-binary "{\"input\": \"git checkout main && git fetch && git pull\n\"}"
-        curl "$API_URL_INPUT" -H "Authorization: Token ${{ secrets.PA_TOKEN }}"  -H "Content-Type: application/json" --data-binary "{\"input\": \"pip install -r requirements.txt\n\"}"
+        send_input "cd ${{ secrets.PA_SRC_DIR }}"
+        send_input "git checkout main && git fetch && git pull"
+        send_input "pip install -r requirements.txt"
     - name: Run Django jobs
       run: |
-        curl "$API_URL_INPUT" -H "Authorization: Token ${{ secrets.PA_TOKEN }}"  -H "Content-Type: application/json" --data-binary "{\"input\": \"python manage.py migrate --no-input\n\"}"
-        curl "$API_URL_INPUT" -H "Authorization: Token ${{ secrets.PA_TOKEN }}"  -H "Content-Type: application/json" --data-binary "{\"input\": \"python manage.py collectstatic --no-input\n\"}"
+        send_input "python manage.py migrate --no-input"
+        send_input "python manage.py collectstatic --no-input"
     - name: Reload PythonAnywhere web app
       run: |
         curl -X POST "$API_URL_RELOAD" -H "Authorization: Token ${{ secrets.PA_TOKEN }}"
