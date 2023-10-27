@@ -47,8 +47,8 @@ jobs:
         curl "https://www.pythonanywhere.com/api/v0/user/${{ secrets.PA_USER }}/consoles/${{ secrets.PA_CONSOLE_ID }}/send_input/" -H "Authorization: Token ${{ secrets.PA_TOKEN }}"  -H "Content-Type: application/json" --data-binary "{\"input\": \"pip install -r requirements.txt\n\"}"
     - name: Run Django jobs
       run: |
-        curl "https://www.pythonanywhere.com/api/v0/user/${{ secrets.PA_USER }}/consoles/${{ secrets.PA_CONSOLE_ID }}/send_input/" -H "Authorization: Token ${{ secrets.PA_TOKEN }}"  -H "Content-Type: application/json" --data-binary "{\"input\": \"./manage.py migrate --no-input\n\"}"
-        curl "https://www.pythonanywhere.com/api/v0/user/${{ secrets.PA_USER }}/consoles/${{ secrets.PA_CONSOLE_ID }}/send_input/" -H "Authorization: Token ${{ secrets.PA_TOKEN }}"  -H "Content-Type: application/json" --data-binary "{\"input\": \"./manage.py collectstatic --no-input\n\"}"
+        curl "https://www.pythonanywhere.com/api/v0/user/${{ secrets.PA_USER }}/consoles/${{ secrets.PA_CONSOLE_ID }}/send_input/" -H "Authorization: Token ${{ secrets.PA_TOKEN }}"  -H "Content-Type: application/json" --data-binary "{\"input\": \"python manage.py migrate --no-input\n\"}"
+        curl "https://www.pythonanywhere.com/api/v0/user/${{ secrets.PA_USER }}/consoles/${{ secrets.PA_CONSOLE_ID }}/send_input/" -H "Authorization: Token ${{ secrets.PA_TOKEN }}"  -H "Content-Type: application/json" --data-binary "{\"input\": \"python manage.py collectstatic --no-input\n\"}"
     - name: Reload PythonAnywhere web app
       run: |
         curl -X POST "https://www.pythonanywhere.com/api/v0/user/${{ secrets.PA_USER }}/webapps/${{ secrets.PA_USER }}.pythonanywhere.com/reload/" -H "Authorization: Token ${{ secrets.PA_TOKEN }}"
