@@ -41,7 +41,8 @@ jobs:
         send_input() {
           curl "$API_URL_INPUT" -H "Authorization: Token ${{ secrets.PA_TOKEN }}"  -H "Content-Type: application/json" --data-binary "{\"input\": \"$1\n\"}"
         }
-        send_input "eval \`ssh-agent\`"
+        SSH_AGENT_OUTPUT = $(send_input "eval \`ssh-agent\`")
+        echo $SSH_AGENT_OUTPUT
         send_input "ssh-add ~/.ssh/id_ed25519"
         send_input "${{ secrets.PA_SSH_KEY_PASSPHRASE }}"
         send_input "workon ${{ secrets.PA_VIRTUALENV }}"
