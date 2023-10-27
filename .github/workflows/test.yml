@@ -36,7 +36,7 @@ jobs:
     - name: Run Django Tests
       run: |
         python manage.py test
-    - name: Connect to PythonAnywhere Console and activate virtualenv
+    - name: Deploy to PythonAnywhere Console
       run: |
         send_input() {
           curl "$API_URL_INPUT" -H "Authorization: Token ${{ secrets.PA_TOKEN }}"  -H "Content-Type: application/json" --data-binary "{\"input\": \"$1\n\"}"
@@ -45,13 +45,9 @@ jobs:
         send_input "ssh-add ~/.ssh/id_ed25519"
         send_input "${{ secrets.PA_SSH_KEY_PASSPHRASE }}"
         send_input "workon ${{ secrets.PA_VIRTUALENV }}"
-    - name: Pull the latest changes
-      run: |
         send_input "cd ${{ secrets.PA_SRC_DIR }}"
         send_input "git checkout main && git fetch && git pull"
         send_input "pip install -r requirements.txt"
-    - name: Run Django jobs
-      run: |
         send_input "python manage.py migrate --no-input"
         send_input "python manage.py collectstatic --no-input"
     - name: Reload PythonAnywhere web app
