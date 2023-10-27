@@ -38,7 +38,7 @@ jobs:
         python manage.py test
     - name: Connect to PythonAnywhere Console and activate virtualenv
       run: |
-        send_input(input) {
+        send_input() {
           curl "$API_URL_INPUT" -H "Authorization: Token ${{ secrets.PA_TOKEN }}"  -H "Content-Type: application/json" --data-binary "{\"input\": \"$1\n\"}"
         }
         send_input "eval \`ssh-agent\`"
