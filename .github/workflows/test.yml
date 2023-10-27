@@ -16,8 +16,8 @@ jobs:
         python-version: ['3.10']
     env:
       API_URL: https://www.pythonanywhere.com/api/v0/user/${{ secrets.PA_USER }}/consoles/${{ secrets.PA_CONSOLE_ID }}
-      API_URL_INPUT: $API_URL/send_input/
-      API_URL_RELOAD: $API_URL/reload/
+      API_URL_INPUT: ${{ env.API_URL }}/send_input/
+      API_URL_RELOAD: ${{ env.API_URL }}/reload/
     steps:
     - uses: actions/checkout@v3
     - name: Set up Python ${{ matrix.python-version }}
