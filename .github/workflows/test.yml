@@ -40,7 +40,7 @@ jobs:
       run: |
         send_input() {
           response=$(curl "$API_URL_INPUT" -H "Authorization: Token ${{ secrets.PA_TOKEN }}"  -H "Content-Type: application/json" --data-binary "{\"input\": \"$1\n\"}")
-          if [ "$response" != "ok" ]; then
+          if [ "$response" != "{"status":"OK"}" ]; then
             echo "Curl command was not successful. Stopping the workflow."
             exit 1
           fi
