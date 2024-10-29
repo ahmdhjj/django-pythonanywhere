@@ -52,6 +52,11 @@ Go to the Web tab in PythonAnywhere and make sure the fields are set correctly:
 ```
 /home/myusername/.virtualenvs/{{ virtualenv_name }}
 ```
+**Static files:**
+|URL|Directory|
+|----|-------|
+|`/static/`|`/home/{{ project_username }}/{{ project_name }}/static/`|
+
 **WSGI configuration file contents:**
 ```
 # This file contains the WSGI configuration required to serve up your
