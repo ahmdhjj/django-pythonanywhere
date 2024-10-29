@@ -92,7 +92,7 @@ application = get_wsgi_application()
 
 - `${{ secrets.PA_CONSOLE_ID }}`: The ID of the console instance in PythonAnywhere used to run the commands (pull changes, migrate, collectstatic, reload app)
 
-- `${{ secrets.PA_SRC_DIR }}`: The git repository in PythonAnywhere with the source code
+- `${{ secrets.PA_SRC_DIR }}`: The path to the git repository in PythonAnywhere with the source code (`/home/{{ project_username }}/{{ project_name }}` for example)
 
 - `${{ secrets.PA_SSH_KEY_PASSPHRASE }}`: The passphrase of the SSH key created in PythonAnywhere
 
