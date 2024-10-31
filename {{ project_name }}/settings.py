@@ -22,12 +22,21 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 # PythonAnywhere recommends using a .env file and `python-dotenv` to env vars
-SECRET_KEY = os.getenv("SECRET_KEY")
+SECRET_KEY = os.getenv('SECRET_KEY')
+PA_USERNAME = os.getenv('PROJECT_USERNAME')
+DATABASE_NAME = os.getenv('DATABASE_NAME')
+DATABASE_USER = os.getenv('DATABASE_USER')
+DATABASE_PASSWORD = os.getenv('DATABASE_PASSWORD')
+DATABASE_HOST = os.getenv('DATABASE_HOST')
 
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
-
-ALLOWED_HOSTS = ['{{ project_username }}.pythonanywhere.com']
+SECURE_SSL_REDIRECT = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+SECURE_HSTS_SECONDS = 518400
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+ALLOWED_HOSTS = [f'{PA_USERNAME}.pythonanywhere.com']
 
 
 # Application definition
@@ -77,8 +86,11 @@ WSGI_APPLICATION = '{{ project_name }}.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': DATABASE_NAME,
+        'USER': DATABASE_USER,
+        'PASSWORD': DATABASE_PASSWORD,
+        'HOST': DATABASE_HOST,
     }
 }
 
@@ -126,7 +138,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # default static files settings for PythonAnywhere.
 # see https://help.pythonanywhere.com/pages/DjangoStaticFiles for more info
-MEDIA_ROOT = '/home/{{ project_username }}/{{ project_name }}/media'
+MEDIA_ROOT = f'/home/{PA_USERNAME}/{{ project_name }}/media'
 MEDIA_URL = '/media/'
-STATIC_ROOT = '/home/{{ project_username }}/{{ project_name }}/static'
+STATIC_ROOT = f'/home/{PA_USERNAME}/{{ project_name }}/static'
 STATIC_URL = '/static/'
