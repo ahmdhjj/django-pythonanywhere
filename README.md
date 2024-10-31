@@ -29,7 +29,7 @@ DATABASE_USER = os.getenv('DATABASE_USER')
 DATABASE_PASSWORD = os.getenv('DATABASE_PASSWORD')
 DATABASE_HOST = os.getenv('DATABASE_HOST')
 ```
-NB: `PA_USERNAME` is the same as `{{ project_username }}`, database variables can  
+NB: `PA_USERNAME` is the same as `{{ project_username }}`
 
 7. Load up the environnment variables from `.env` file:
 
