@@ -3,33 +3,46 @@ A template for continuous deployment of Django apps to PythonAnywhere (for Free 
 
 ## Guide
 
-1. Replace `{{ project_name }}` by Django project name.
-2. Replace `{{ project_username }}` by your PythonAnywhere username.
+1. Replace `{{ project_name }}` by Django project name and `{{ project_username }}` by your PythonAnywhere username.
+2. Review and update `settings.py` if needed. This repo uses production settings recommended by Django. You can adjust them based on your needs.
 3. [Generate a new SSH key](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent#generating-a-new-ssh-key) in a PythonAnyhwere Bash console and [add it to your github account](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account?tool=webui#adding-a-new-ssh-key-to-your-account)
-4. Create a virtual env in a PythonAnywhere Bash Console in `/home/{{ project_username }}/` directory.
+4. Create a new MYSQL database from the `Databases` tab in PA and set MYSQL password. You will be redirected to a page where you can copy database name, host, username and use them in `settings.py` (see step 6).
+
+5. Create a virtual env in a PythonAnywhere Bash Console in `/home/{{ project_username }}/` directory.
 
 _To create a Python 3.10 virtualenv called `myvirtualenv`:_
 ```
    mkvirtualenv myvirtualenv --python=/usr/bin/python3.10
    ```
-5. Store your environment variables in a `/home/{{ project_username }}/{{ project_name }}/.env` file.
+
+6. Store your environment variables in a `/home/{{ project_username }}/{{ project_name }}/.env` file.
 
 _In `/home/{{ project_username }}/{{ project_name }}` run:_
 ```
 echo "export SECRET_KEY=sekritvalue" >> .env
 ```
-6. Load up the environnment variables from `.env` file by adding the `source` command below to your virtualenv postactivate script:
+You can use the same file to store other environment variables used in `settings.py`:
+```
+PA_USERNAME = os.getenv('PROJECT_USERNAME')
+DATABASE_NAME = os.getenv('DATABASE_NAME')
+DATABASE_USER = os.getenv('DATABASE_USER')
+DATABASE_PASSWORD = os.getenv('DATABASE_PASSWORD')
+DATABASE_HOST = os.getenv('DATABASE_HOST')
+```
+NB: `PA_USERNAME` is the same as `{{ project_username }}`
+
+7. Load up the environnment variables from `.env` file:
 
 _In `/home/{{ project_username }}/{{ project_name }}` run:_
 ```
+set -a; source .env; set +a
+```
+
+You can also add the `source` command to your virtualenv postactivate script:
+```
 echo 'set -a; source .env; set +a' >> ~/.virtualenvs/myvirtualenv/bin/postactivate
 ```
-_In the code, access the variable from `os.getenv`:_
-```
-import os
-SECRET_KEY = os.getenv("SECRET_KEY")
-```
-7. Clone the GitHub repo from a PythonAnyhwere Bash console in `/home/{{ project_username }}/` directory.
+8. Clone the GitHub repo from a PythonAnyhwere Bash console in `/home/{{ project_username }}/` directory.
 
 ## Web App Configuration in PythonAnywhere
 Go to the Web tab in PythonAnywhere and make sure the fields are set correctly:
