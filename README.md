@@ -1,5 +1,15 @@
 # django-pythonanywhere
-A template for continuous deployment of Django apps to PythonAnywhere (for Free Accounts using MySQL database) using GitHub actions
+Use this template for continuous deployment of Django apps to PythonAnywhere (a quickstart for Free Accounts using MySQL database).
+
+The repo provides a [GitHub workflow](https://github.com/ahmdhjj/django-pythonanywhere/blob/main/.github/workflows/deploy.yml) that uses PythonAnywhere's API to deploy your code with each new GitHub release.
+
+Below is all you need to know to set up your project in PythonAnywhere and changes you need to make in your GitHub repo. Feel free to contribute with a PR, open a new issue or start a discussion.
+
+**Table of contents:**
+- [Guide](#guide)
+- [Web App Configuration in PythonAnywhere](#web-app-configuration-in-pythonanywhere)
+- [GitHub secrets to add to the repository](#github-secrets-to-add-to-the-repository)
+- [How-to guides and help pages from PythonAnywhere](#how-to-guides-and-help-pages-from-pythonanywhere)
 
 ## Guide
 
