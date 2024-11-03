@@ -29,6 +29,7 @@ jobs:
         send_input "${{ secrets.PA_SSH_KEY_PASSPHRASE }}"
         send_input "workon ${{ secrets.PA_VIRTUALENV }}"
         send_input "cd ${{ secrets.PA_SRC_DIR }}"
+        send_input "set -a; source .env; set +a"
         send_input "git checkout main && git fetch && git pull"
         send_input "pip install -r requirements.txt"
         send_input "python manage.py migrate --no-input"
